@@ -15,15 +15,14 @@
       href="original-favicon.ico"
       type="image/x-icon"
     />
-    <!-- <base href="https://khanieteam.com/ResetPass/Server/assets/" /> -->
-    <base href="http://tools.com/pages/latestpages/ResetPass/Server/assets/" />
+   <base href="https://khanieteam.com/ResetPass/Server/assets/" />
+     <!-- <base href="http://tools.com/pages/latestpages/ResetPass/Server/assets/" /> -->
 
     <script defer>
-      const BASE_URL = "http://tools.com/pages/latestpages/ResetPass/Server";
-      const ASSETS_URL =
-        "http://tools.com/pages/latestpages/ResetPass/Server/assets";
-      // const BASE_URL = "https://khanieteam.com/ResetPass/Server";
-      // const ASSETS_URL = "https://khanieteam.com/ResetPass/Server/assets";
+      // const BASE_URL = "http://tools.com/pages/latestpages/ResetPass/Server";
+      // const ASSETS_URL = "http://tools.com/pages/latestpages/ResetPass/Server/assets";
+      const BASE_URL = "https://khanieteam.com/ResetPass/Server";
+      const ASSETS_URL = "https://khanieteam.com/ResetPass/Server/assets";
 
       async function getPageContent(page, route, original) {
         fetch(`${BASE_URL}/${route}/${page}.html`)
